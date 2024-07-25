@@ -1,10 +1,10 @@
-package com.medilabo_solutions.service_discovery;
+package com.medilabo_solutions.authentication;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ServiceDiscoveryApplicationTests {
+class AuthenticationApplicationTests {
 
 	@Test
 	void contextLoads() {
