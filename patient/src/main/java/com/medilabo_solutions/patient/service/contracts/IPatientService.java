@@ -1,6 +1,6 @@
-package com.medilabo_solutions.authentication.service.contracts;
+package com.medilabo_solutions.patient.service.contract;
 
-import com.medilabo_solutions.authentication.model.Patient;
+import com.medilabo_solutions.patient.model.Patient;
 
 import java.util.List;
 
