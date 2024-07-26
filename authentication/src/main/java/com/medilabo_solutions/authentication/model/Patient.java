@@ -33,12 +33,11 @@ public class Patient {
     @Pattern(regexp = "Male|Female", message = "Gender must be 'Male' or 'Female'")
     private String gender;
 
-    @NotBlank(message = "Postal address is mandatory")
     @Size(max = 100, message = "Postal address cannot be longer than 100 characters")
     private String postalAddress;
 
-    @NotBlank(message = "Phone number is mandatory")
     @Pattern(regexp = "\\+?[0-9. ()-]{7,25}", message = "Phone number is invalid")
+    @Size(max = 25, message = "Phone number cannot be longer than 25 characters")
     private String phoneNumber;
 
     public Patient(Integer id, String firstName, String lastName, Date dateOfBirth, String gender, String postalAddress, String phoneNumber) {
