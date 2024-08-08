@@ -16,6 +16,10 @@ public class PatientController {
     @Autowired
     private IPatientService iPatientService;
 
+    public ClientsController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+
     @GetMapping
     public List<Patient> getAllPatients() {
         return iPatientService.getAllPatients();
