@@ -1,14 +1,15 @@
-package com.medilabo_solutions.authentication.controller;
+package com.medilabo_solutions.patient.controller;
 
-import com.medilabo_solutions.authentication.model.Patient;
-import com.medilabo_solutions.authentication.service.PatientService;
-import com.medilabo_solutions.authentication.service.contracts.IPatientService;
+import com.medilabo_solutions.patient.model.Patient;
+import com.medilabo_solutions.patient.service.contracts.IPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+
+@Controller
 @RequestMapping("/patients")
 public class PatientController {
 

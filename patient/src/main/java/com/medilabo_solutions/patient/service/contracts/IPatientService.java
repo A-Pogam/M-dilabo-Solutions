@@ -1,4 +1,4 @@
-package com.medilabo_solutions.patient.service.contract;
+package com.medilabo_solutions.patient.service.contracts;
 
 import com.medilabo_solutions.patient.model.Patient;
 

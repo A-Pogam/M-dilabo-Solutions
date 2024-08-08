@@ -1,23 +1,21 @@
-package com.medilabo_solutions.authentication.service;
+package com.medilabo_solutions.patient.service;
 
-import com.medilabo_solutions.authentication.model.Patient;
-import com.medilabo_solutions.authentication.repository.contracts.PatientRepository;
-import com.medilabo_solutions.authentication.service.contracts.IPatientService;
-import com.medilabo_solutions.authentication.service.contracts.IUserService;
+import com.medilabo_solutions.patient.model.Patient;
+import com.medilabo_solutions.patient.repository.contracts.PatientRepository;
+import com.medilabo_solutions.patient.service.contracts.IPatientService;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
+@Service
 public class PatientService implements IPatientService {
 
     private static final Logger logger = LogManager.getLogger(PatientService.class);
-
-    @Autowired
-    private IUserService iUserService;
 
     @Autowired
     private PatientRepository patientRepository;

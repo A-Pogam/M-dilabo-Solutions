@@ -1,6 +1,6 @@
-package com.medilabo_solutions.authentication.repository.contracts;
+package com.medilabo_solutions.patient.repository.contracts;
 
-import com.medilabo_solutions.authentication.model.Patient;
+import com.medilabo_solutions.patient.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

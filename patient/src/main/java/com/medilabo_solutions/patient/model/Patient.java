@@ -1,11 +1,12 @@
-package com.medilabo_solutions.authentication.model;
+package com.medilabo_solutions.patient.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+
 import java.util.Date;
 
 @Entity
@@ -40,6 +41,8 @@ public class Patient {
     @Size(max = 25, message = "Phone number cannot be longer than 25 characters")
     private String phoneNumber;
 
+    public Patient() {}
+
     public Patient(Integer id, String firstName, String lastName, Date dateOfBirth, String gender, String postalAddress, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
@@ -49,6 +52,8 @@ public class Patient {
         this.postalAddress = postalAddress;
         this.phoneNumber = phoneNumber;
     }
+
+    // Getters and setters
 
     public Integer getId() {
         return id;
@@ -106,4 +111,3 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 }
-
