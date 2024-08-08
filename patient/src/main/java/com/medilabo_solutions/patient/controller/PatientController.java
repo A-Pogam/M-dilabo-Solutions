@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@Controller
+@RestController //More accurate for React JSON (instead of Controlller HTML)
 @RequestMapping("/patients")
 public class PatientController {
 
-    @Autowired
     private IPatientService iPatientService;
 
-    public ClientsController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    @Autowired
+    public PatientController(IPatientService iPatientService) {
+        this.iPatientService = iPatientService;
     }
 
     @GetMapping

@@ -17,8 +17,12 @@ public class PatientService implements IPatientService {
 
     private static final Logger logger = LogManager.getLogger(PatientService.class);
 
-    @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    public PatientService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+    }
 
     @Override
     @Transactional

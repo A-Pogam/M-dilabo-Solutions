@@ -1,39 +1,114 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   state = {
-    clients: []
+    patients: [],
+    selectedPatient: null,
+    updatedPatient: { firstName: '', lastName: '', email: '' }
   };
 
   async componentDidMount() {
-    try {
-      const response = await fetch('/patients');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const body = await response.json();
-      this.setState({ clients: body });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+    const response = await fetch('/patients');
+    const patients = await response.json();
+    this.setState({ patients });
   }
 
+  handleSearch = async (firstName, lastName) => {
+    const response = await fetch(`/patients/${firstName}/${lastName}`);
+    const patient = await response.json();
+    this.setState({ selectedPatient: patient, updatedPatient: patient });
+  };
+
+  handleUpdate = async () => {
+    const { firstName, lastName, email } = this.state.updatedPatient;
+    const response = await fetch(`/patients/${firstName}/${lastName}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ firstName, lastName, email })
+    });
+    const updatedPatient = await response.json();
+    this.setState({ selectedPatient: updatedPatient });
+  };
+
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      updatedPatient: {
+        ...this.state.updatedPatient,
+        [name]: value
+      }
+    });
+  };
+
   render() {
-    const { clients } = this.state;
+    const { patients, selectedPatient, updatedPatient } = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <div className="App-intro">
-            <h2>Patients</h2>
-            {clients.map(client =>
-              <div key={client.id}>
-                {client.name} ({client.email})
-              </div>
-            )}
-          </div>
+          <h2>Hi Doctor !</h2>
+
+          <h3>Search and update patients</h3>
+          <ul>
+            {patients.map(patient => (
+              <li key={`${patient.firstName}-${patient.lastName}`}>
+                {patient.firstName} {patient.lastName} ({patient.email})
+              </li>
+            ))}
+          </ul>
+
+          <h3>Search Patient</h3>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            this.handleSearch(updatedPatient.firstName, updatedPatient.lastName);
+          }}>
+            <input
+              name="firstName"
+              value={updatedPatient.firstName}
+              onChange={this.handleInputChange}
+              placeholder="First Name"
+            />
+            <input
+              name="lastName"
+              value={updatedPatient.lastName}
+              onChange={this.handleInputChange}
+              placeholder="Last Name"
+            />
+            <button type="submit">Search</button>
+          </form>
+
+          {selectedPatient && (
+            <div>
+              <h3>Update Patient</h3>
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                this.handleUpdate();
+              }}>
+                <input
+                  name="firstName"
+                  value={updatedPatient.firstName}
+                  onChange={this.handleInputChange}
+                  placeholder="First Name"
+                />
+                <input
+                  name="lastName"
+                  value={updatedPatient.lastName}
+                  onChange={this.handleInputChange}
+                  placeholder="Last Name"
+                />
+                <input
+                  name="email"
+                  value={updatedPatient.email}
+                  onChange={this.handleInputChange}
+                  placeholder="Email"
+                />
+                <button type="submit">Update</button>
+              </form>
+            </div>
+          )}
         </header>
       </div>
     );
