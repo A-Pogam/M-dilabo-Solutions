@@ -3,7 +3,7 @@ import '../styles/pages/home.scss';
 
 function Home() {
   return (
-    <div className="home-container">
+    <div className="home-container"> {/* Utilisation de la classe spécifique pour la page d'accueil */}
       {/* Header Section */}
       <header className="header">
         <div className="header-logo">Médilabo Solutions</div>
