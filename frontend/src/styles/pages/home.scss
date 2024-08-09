@@ -1,0 +1,140 @@
+// Variables pour la palette de couleurs
+$primary-color: #5DADE2;
+$secondary-color: #e6f2ff;
+$background-color: #f0f8ff;
+$feature-bg-color: #d1e0f0;
+$text-color: #333;
+$button-hover-color: #003399;
+$white-color: #fff;
+
+// General Styles
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+// Container Principal
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+// Header Styles
+.header {
+  width: 100%;
+  background-color: $primary-color;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $white-color;
+  box-sizing: border-box; 
+
+  .header-logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .header-nav .login-link {
+    color: $white-color;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 16px;
+    border: 2px solid $white-color;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $white-color;
+      color: $primary-color;
+    }
+  }
+}
+
+// Hero Section Styles
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: $secondary-color;
+    width: 100%;
+    flex: 1;
+    box-sizing: border-box;
+  
+    h1 {
+      font-size: 48px;
+      color: $primary-color;
+      margin: 0 0 10px 0; 
+    }
+  
+    p {
+      font-size: 18px;
+      margin: 10px 0 20px 0; 
+    }
+  
+    .cta-button {
+      padding: 12px 24px;
+      font-size: 18px;
+      color: $white-color;
+      background-color: $primary-color;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: $button-hover-color;
+      }
+    }
+  }  
+
+// Features Section Styles
+.features {
+     display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background-color: $feature-bg-color;
+    width: 100%;
+    flex: 1;
+    box-sizing: border-box;
+  
+    .feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 50%;
+      margin: 0 10px; 
+  
+      h2 {
+        color: $primary-color;
+        font-size: 24px;
+        margin: 0 0 5px 0; 
+      }
+  
+      p {
+        font-size: 16px;
+        margin: 5px 0; 
+      }
+    }
+  }
+  
+
+// Footer Styles
+.footer {
+  width: 100%;
+  padding: 20px;
+  background-color: $primary-color;
+  color: $white-color;
+  text-align: center;
+  box-sizing: border-box; 
+}
