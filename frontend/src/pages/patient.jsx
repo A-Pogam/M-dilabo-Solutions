@@ -1,118 +1,71 @@
-import React, { Component } from 'react';
-import '../styles/pages';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/pages/patient.scss';
 
-class App extends Component {
-  state = {
-    patients: [],
-    selectedPatient: null,
-    updatedPatient: { firstName: '', lastName: '', email: '' }
-  };
+const Patient = () => {
+  const [patients, setPatients] = useState([]);
+  const [updatedPatient, setUpdatedPatient] = useState({ firstName: '', lastName: '', email: '' });
+  const navigate = useNavigate();
 
-  async componentDidMount() {
-    const response = await fetch('/patients');
-    const patients = await response.json();
-    this.setState({ patients });
-  }
+  useEffect(() => {
+    const fetchPatients = async () => {
+      const response = await fetch('/patients');
+      const data = await response.json();
+      setPatients(data);
+    };
+    fetchPatients();
+  }, []);
 
-  handleSearch = async (firstName, lastName) => {
+  const handleSearch = async (firstName, lastName) => {
     const response = await fetch(`/patients/${firstName}/${lastName}`);
     const patient = await response.json();
-    this.setState({ selectedPatient: patient, updatedPatient: patient });
+    setUpdatedPatient(patient);
+    navigate(`/patient/${patient.firstName}-${patient.lastName}`);
   };
 
-  handleUpdate = async () => {
-    const { firstName, lastName, email } = this.state.updatedPatient;
-    const response = await fetch(`/patients/${firstName}/${lastName}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ firstName, lastName, email })
-    });
-    const updatedPatient = await response.json();
-    this.setState({ selectedPatient: updatedPatient });
-  };
-
-  handleInputChange = (event) => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({
-      updatedPatient: {
-        ...this.state.updatedPatient,
-        [name]: value
-      }
-    });
+    setUpdatedPatient(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
-  render() {
-    const { patients, selectedPatient, updatedPatient } = this.state;
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h2>Hi Doctor !</h2>
+        <h3>Search and update patients</h3>
+        <ul>
+          {patients.map(patient => (
+            <li key={`${patient.firstName}-${patient.lastName}`}>
+              {patient.firstName} {patient.lastName} ({patient.email})
+            </li>
+          ))}
+        </ul>
 
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h2>Hi Doctor !</h2>
-
-          <h3>Search and update patients</h3>
-          <ul>
-            {patients.map(patient => (
-              <li key={`${patient.firstName}-${patient.lastName}`}>
-                {patient.firstName} {patient.lastName} ({patient.email})
-              </li>
-            ))}
-          </ul>
-
-          <h3>Search Patient</h3>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            this.handleSearch(updatedPatient.firstName, updatedPatient.lastName);
-          }}>
-            <input
-              name="firstName"
-              value={updatedPatient.firstName}
-              onChange={this.handleInputChange}
-              placeholder="First Name"
-            />
-            <input
-              name="lastName"
-              value={updatedPatient.lastName}
-              onChange={this.handleInputChange}
-              placeholder="Last Name"
-            />
-            <button type="submit">Search</button>
-          </form>
-
-          {selectedPatient && (
-            <div>
-              <h3>Update Patient</h3>
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                this.handleUpdate();
-              }}>
-                <input
-                  name="firstName"
-                  value={updatedPatient.firstName}
-                  onChange={this.handleInputChange}
-                  placeholder="First Name"
-                />
-                <input
-                  name="lastName"
-                  value={updatedPatient.lastName}
-                  onChange={this.handleInputChange}
-                  placeholder="Last Name"
-                />
-                <input
-                  name="email"
-                  value={updatedPatient.email}
-                  onChange={this.handleInputChange}
-                  placeholder="Email"
-                />
-                <button type="submit">Update</button>
-              </form>
-            </div>
-          )}
-        </header>
-      </div>
-    );
-  }
+        <h3>Search your patient</h3>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          handleSearch(updatedPatient.firstName, updatedPatient.lastName);
+        }}>
+          <input
+            name="firstName"
+            value={updatedPatient.firstName}
+            onChange={handleInputChange}
+            placeholder="First Name"
+          />
+          <input
+            name="lastName"
+            value={updatedPatient.lastName}
+            onChange={handleInputChange}
+            placeholder="Last Name"
+          />
+          <button type="submit">Search</button>
+        </form>
+      </header>
+    </div>
+  );
 }
 
-export default App;
+export default Patient;

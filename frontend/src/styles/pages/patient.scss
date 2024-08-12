@@ -1,5 +1,6 @@
-.App {
+.Patient {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -14,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #A9CCE3;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,6 +27,21 @@
 
 .App-link {
   color: #61dafb;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+input {
+  flex: 1; /* Make inputs take up equal space within the form */
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 @keyframes App-logo-spin {

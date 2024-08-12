@@ -10,7 +10,7 @@ const Error = () => {
       <ul>
             <li>
               <Link className="back-home" to="/">
-                Go back at home
+                Go back to Home
               </Link>
             </li>
       </ul>
