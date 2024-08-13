@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @RestController //More accurate for React JSON (instead of Controlller HTML)
-@RequestMapping("/patients")
+@RequestMapping("/patient")
 public class PatientController {
 
     private IPatientService iPatientService;
@@ -25,12 +25,12 @@ public class PatientController {
         return iPatientService.getAllPatients();
     }
 
-    @GetMapping("/{firstName}/{lastName}")
+    @GetMapping("/patients/{firstName}/{lastName}")
     public Patient getPatientByName(@PathVariable String firstName, @PathVariable String lastName) {
         return iPatientService.getPatientByName(firstName, lastName);
     }
 
-    @PutMapping("/{firstName}/{lastName}")
+    @PutMapping("/patients/{firstName}/{lastName}")
     public Patient updatePatient(@PathVariable String firstName, @PathVariable String lastName, @RequestBody Patient patient) {
         return iPatientService.updatePatient(firstName, lastName, patient);
     }
