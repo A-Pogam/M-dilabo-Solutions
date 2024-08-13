@@ -24,7 +24,7 @@ const Patient = () => {
   };
 
   const handleUpdatePatient = (patientId) => {
-    navigate(`/patient/${patientId}`);
+    navigate(`/patients/${patientId}`);
   };
 
   const handleInputChange = (event) => {

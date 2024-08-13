@@ -51,7 +51,7 @@ const PatientDetail = () => {
 
       const data = await response.json();
       setPatient(data);
-      navigate('/patient'); // Navigate back to the patient list or details page after update
+      navigate('/patients'); // Navigate back to the patient list or details page after update
     } catch (error) {
       console.error('Error updating patient details:', error);
     }
