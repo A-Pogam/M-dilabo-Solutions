@@ -5,7 +5,7 @@ const PatientList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/patient/patients/')  
+    fetch('/patients/')  
       .then(response => response.json())
       .then(data => setPatients(data))
       .catch(error => setError(error));

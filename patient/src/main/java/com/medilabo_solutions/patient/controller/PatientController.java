@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController //More accurate for React JSON (instead of Controlller HTML)
-@RequestMapping("/patient")
+@RestController
+@RequestMapping("/patients")
 public class PatientController {
 
     private IPatientService iPatientService;
@@ -25,12 +25,12 @@ public class PatientController {
         return iPatientService.getAllPatients();
     }
 
-    @GetMapping("/patients/{firstName}/{lastName}")
+    @GetMapping("/{firstName}/{lastName}")
     public Patient getPatientByName(@PathVariable String firstName, @PathVariable String lastName) {
         return iPatientService.getPatientByName(firstName, lastName);
     }
 
-    @PutMapping("/patients/{firstName}/{lastName}")
+    @PutMapping("/{firstName}/{lastName}")
     public Patient updatePatient(@PathVariable String firstName, @PathVariable String lastName, @RequestBody Patient patient) {
         return iPatientService.updatePatient(firstName, lastName, patient);
     }
