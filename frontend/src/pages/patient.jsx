@@ -20,7 +20,11 @@ const Patient = () => {
     const response = await fetch(`/patients/${firstName}/${lastName}`);
     const patient = await response.json();
     setUpdatedPatient(patient);
-    navigate(`/patient/${patient.firstName}-${patient.lastName}`);
+    navigate(`/patients/${patient.firstName}-${patient.lastName}`);
+  };
+
+  const handleUpdatePatient = (patientId) => {
+    navigate(`/patient/${patientId}`);
   };
 
   const handleInputChange = (event) => {
@@ -34,15 +38,8 @@ const Patient = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>Hi Doctor !</h2>
-        <h3>Search and update patients</h3>
-        <ul>
-          {patients.map(patient => (
-            <li key={`${patient.firstName}-${patient.lastName}`}>
-              {patient.firstName} {patient.lastName} ({patient.email})
-            </li>
-          ))}
-        </ul>
+        <h2>Hi Doctor ! ⚕️</h2>
+        <h3>Search and update your patients 👩🏼‍💻</h3>
 
         <h3>Search your patient</h3>
         <form onSubmit={(e) => {
@@ -63,6 +60,50 @@ const Patient = () => {
           />
           <button type="submit">Search</button>
         </form>
+
+        <div className="patient-container">
+          <div className="patient-header">
+            <h2>Your Patients</h2>
+          </div>
+
+          <section className="patient-body">
+            <table className="patient-table">
+              <thead>
+                <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Date of Birth</th>
+                  <th>Gender</th>
+                  <th>Postal Address</th>
+                  <th>Phone Number</th>
+                  <th>Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                {patients.map(patient => (
+                  <tr key={patient.id}>
+                    <td>{patient.firstName}</td>
+                    <td>{patient.lastName}</td>
+                    <td>{patient.dateOfBirth}</td>
+                    <td>{patient.gender}</td>
+                    <td>{patient.postalAddress}</td>
+                    <td>{patient.phoneNumber}</td>
+                    <td>
+                      <button
+                        onClick={() => handleUpdatePatient(patient.id)}
+                        className="update-button"
+                      >
+                        Update
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+    
       </header>
     </div>
   );
