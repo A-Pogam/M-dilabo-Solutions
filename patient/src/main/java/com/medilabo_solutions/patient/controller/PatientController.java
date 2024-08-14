@@ -2,11 +2,15 @@ package com.medilabo_solutions.patient.controller;
 
 import com.medilabo_solutions.patient.model.Patient;
 import com.medilabo_solutions.patient.service.contracts.IPatientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -36,8 +40,16 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public Patient updatePatient(@PathVariable Long id, @RequestBody Patient patient) {
-        return iPatientService.updatePatient(id, patient);
+    public ResponseEntity<?> updatePatient(@PathVariable Long id, @RequestBody @Valid Patient patient, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.toList());
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        Patient updatedPatient = iPatientService.updatePatient(id, patient);
+        return ResponseEntity.ok(updatedPatient);
     }
 
 
