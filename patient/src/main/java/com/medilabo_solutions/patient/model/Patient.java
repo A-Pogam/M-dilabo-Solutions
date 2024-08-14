@@ -15,7 +15,7 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "first_name")
     @NotBlank(message = "First name is mandatory")
@@ -45,7 +45,7 @@ public class Patient {
 
     public Patient() {}
 
-    public Patient(Integer id, String firstName, String lastName, Date dateOfBirth, String gender, String postalAddress, String phoneNumber) {
+    public Patient(Long id, String firstName, String lastName, Date dateOfBirth, String gender, String postalAddress, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -57,11 +57,11 @@ public class Patient {
 
     // Getters and setters
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
