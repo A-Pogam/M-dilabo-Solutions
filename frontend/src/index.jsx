@@ -18,6 +18,7 @@ root.render(
         <Route path="*" element={<Error />} />
         <Route path="/patients" element={<Patient />} />
         <Route path="/patients/:patientId" element={<PatientDetail />} /> 
+        <Route path="/patients/:firstName/:lastName" element={<PatientDetail />} />
       </Routes>
     </Router>
   </React.StrictMode>

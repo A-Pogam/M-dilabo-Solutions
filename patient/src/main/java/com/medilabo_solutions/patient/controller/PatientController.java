@@ -25,9 +25,14 @@ public class PatientController {
         return iPatientService.getAllPatients();
     }
 
-    @GetMapping("/{firstName}/{lastName}")
-    public Patient getPatientByName(@PathVariable String firstName, @PathVariable String lastName) {
+    @GetMapping("/search")
+    public Patient getPatientByName(@RequestParam String firstName, @RequestParam String lastName) {
         return iPatientService.getPatientByName(firstName, lastName);
+    }
+
+    @GetMapping("/{id}")
+    public Patient getPatientById (@PathVariable Long id) {
+        return iPatientService.getPatientById(id);
     }
 
     @PutMapping("/{firstName}/{lastName}")
@@ -35,9 +40,6 @@ public class PatientController {
         return iPatientService.updatePatient(firstName, lastName, patient);
     }
 
-    @GetMapping("/{id}")
-    public Patient getPatientById (@PathVariable Long id) {
-        return iPatientService.getPatientById(id);
-    }
+
 
 }

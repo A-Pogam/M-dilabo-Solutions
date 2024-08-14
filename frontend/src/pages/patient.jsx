@@ -4,32 +4,47 @@ import '../styles/pages/patient.scss';
 
 const Patient = () => {
   const [patients, setPatients] = useState([]);
-  const [updatedPatient, setUpdatedPatient] = useState({ firstName: '', lastName: '', email: '' });
+  const [search, setSearch] = useState({ firstName: '', lastName: '' });
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPatients = async () => {
-      const response = await fetch('/patients');
-      const data = await response.json();
-      setPatients(data);
+      try {
+        const response = await fetch('/patients');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setPatients(data);
+      } catch (error) {
+        console.error('Error fetching patients:', error);
+      }
     };
+
     fetchPatients();
   }, []);
 
-  const handleSearch = async (firstName, lastName) => {
-    const response = await fetch(`/patients/${firstName}/${lastName}`);
-    const patient = await response.json();
-    setUpdatedPatient(patient);
-    navigate(`/patients/${patient.firstName}-${patient.lastName}`);
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/patients/search?firstName=${search.firstName}&lastName=${search.lastName}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const patient = await response.json();
+      if (patient && patient.id) {
+        navigate(`/patients/${patient.id}`);
+      } else {
+        console.log('Patient not found');
+      }
+    } catch (error) {
+      console.error('Error fetching patient:', error);
+    }
   };
 
-  const handleUpdatePatient = (patientId) => {
-    navigate(`/patients/${patientId}`);
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUpdatedPatient(prevState => ({
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearch(prevState => ({
       ...prevState,
       [name]: value
     }));
@@ -42,19 +57,16 @@ const Patient = () => {
         <h3>Search and update your patients 👩🏼‍💻</h3>
 
         <h3>Search your patient</h3>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          handleSearch(updatedPatient.firstName, updatedPatient.lastName);
-        }}>
+        <form onSubmit={handleSearch}>
           <input
             name="firstName"
-            value={updatedPatient.firstName}
+            value={search.firstName}
             onChange={handleInputChange}
             placeholder="First Name"
           />
           <input
             name="lastName"
-            value={updatedPatient.lastName}
+            value={search.lastName}
             onChange={handleInputChange}
             placeholder="Last Name"
           />
@@ -90,7 +102,7 @@ const Patient = () => {
                     <td>{patient.phoneNumber}</td>
                     <td>
                       <button
-                        onClick={() => handleUpdatePatient(patient.id)}
+                        onClick={() => navigate(`/patients/${patient.id}`)}
                         className="update-button"
                       >
                         Update
@@ -102,8 +114,6 @@ const Patient = () => {
             </table>
           </section>
         </div>
-
-    
       </header>
     </div>
   );
