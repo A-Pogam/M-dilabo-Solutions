@@ -16,8 +16,8 @@ root.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Error />} />
-        <Route path="/patient" element={<Patient />} />
-        <Route path="/patient/:patientId" element={<PatientDetail />} /> 
+        <Route path="/patients" element={<Patient />} />
+        <Route path="/patients/:patientId" element={<PatientDetail />} /> 
       </Routes>
     </Router>
   </React.StrictMode>

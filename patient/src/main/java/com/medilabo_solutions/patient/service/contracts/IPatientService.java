@@ -9,5 +9,7 @@ public interface IPatientService {
     Patient updatePatient(String firstName, String lastName, Patient updatedPatient);
     Patient getPatientByName(String firstName, String lastName);
     List<Patient> getAllPatients();
+
+    Patient getPatientById(Long id);
 }
 

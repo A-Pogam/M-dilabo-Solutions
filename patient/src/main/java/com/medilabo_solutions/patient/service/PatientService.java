@@ -55,4 +55,10 @@ public class PatientService implements IPatientService {
         logger.info("Fetching all patients");
         return patientRepository.findAll();
     }
+
+    public Patient getPatientById(Long id){
+        logger.info("Fetching patient with ID: " + id);
+        return patientRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
 }
