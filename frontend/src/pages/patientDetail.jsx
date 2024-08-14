@@ -51,7 +51,7 @@ const PatientDetail = () => {
 
       const data = await response.json();
       setPatient(data);
-      navigate('/patients'); // Navigate back to the patient list or details page after update
+      navigate('/patients'); // Navigate back to the patient list or another page after update
     } catch (error) {
       console.error('Error updating patient details:', error);
     }
@@ -80,15 +80,6 @@ const PatientDetail = () => {
             type="text"
             name="lastName"
             value={updatedPatient.lastName || ''}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          <strong>Email:</strong>
-          <input
-            type="email"
-            name="email"
-            value={updatedPatient.email || ''}
             onChange={handleInputChange}
           />
         </label>

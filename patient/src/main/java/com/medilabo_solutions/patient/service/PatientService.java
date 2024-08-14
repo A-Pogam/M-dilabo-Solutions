@@ -32,8 +32,8 @@ public class PatientService implements IPatientService {
     }
 
     @Transactional
-    public Patient updatePatient(String firstName, String lastName, Patient updatedPatient) {
-        Patient patient = patientRepository.findByFirstNameAndLastName(firstName, lastName)
+    public Patient updatePatient(Long id, Patient updatedPatient) {
+        Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
         patient.setFirstName(updatedPatient.getFirstName());
         patient.setLastName(updatedPatient.getLastName());
@@ -41,7 +41,7 @@ public class PatientService implements IPatientService {
         patient.setGender(updatedPatient.getGender());
         patient.setPostalAddress(updatedPatient.getPostalAddress());
         patient.setPhoneNumber(updatedPatient.getPhoneNumber());
-        logger.info("Updating patient with name {} {}: {}", firstName, lastName, updatedPatient);
+        logger.info("Updating patient with ID {}: {}", id, updatedPatient);
         return patientRepository.save(patient);
     }
 

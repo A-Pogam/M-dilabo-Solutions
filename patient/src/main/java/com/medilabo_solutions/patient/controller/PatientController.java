@@ -35,9 +35,9 @@ public class PatientController {
         return iPatientService.getPatientById(id);
     }
 
-    @PutMapping("/{firstName}/{lastName}")
-    public Patient updatePatient(@PathVariable String firstName, @PathVariable String lastName, @RequestBody Patient patient) {
-        return iPatientService.updatePatient(firstName, lastName, patient);
+    @PutMapping("/{id}")
+    public Patient updatePatient(@PathVariable Long id, @RequestBody Patient patient) {
+        return iPatientService.updatePatient(id, patient);
     }
 
 
