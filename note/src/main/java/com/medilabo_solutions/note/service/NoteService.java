@@ -38,4 +38,9 @@ public class NoteService implements INoteService {
     public void deleteNoteById(String id) {
         noteRepository.deleteById(id);
     }
+
+    @Override
+    public List<Note> getNotesByPatientName(String patientName) {
+        return noteRepository.findByPatientName(patientName);
+    }
 }

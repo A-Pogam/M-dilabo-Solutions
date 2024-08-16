@@ -10,4 +10,6 @@ public interface INoteService {
     List<Note> getNotesByPatientId(Long patId);
     Note getNoteById(String id);
     void deleteNoteById(String id);
+    List<Note> getNotesByPatientName(String patientName);
+
 }
