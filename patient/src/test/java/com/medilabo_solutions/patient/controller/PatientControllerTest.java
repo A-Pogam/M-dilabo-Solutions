@@ -93,7 +93,7 @@ public class PatientControllerTest {
                 .andExpect(jsonPath("$.phoneNumber").value("123-456-7890"));
 
 
-        verify(iPatientService, times(1)).updatePatient(eq(1L), any(Patient.class));
+        verify(iPatientService, times(1)).updatePatient(eq(1L), anyPatient);
     }
 
 
@@ -101,7 +101,7 @@ public class PatientControllerTest {
     public void updatePatient_invalidData() throws Exception {
         MvcResult result = mockMvc.perform(put("/patients/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"firstName\": \"\", \"lastName\": \"\", \"dateOfBirth\": \"2024-01-01\", \"gender\": \"\", \"postalAddress\": \"123 Main St\", \"phoneNumber\": \"123-456-7890\" }"))
+                        .content("{ \"firstName\": null, \"lastName\": null, \"dateOfBirth\": \"2024-01-01\", \"gender\": null, \"postalAddress\": \"123 Main St\", \"phoneNumber\": \"123-456-7890\" }"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();

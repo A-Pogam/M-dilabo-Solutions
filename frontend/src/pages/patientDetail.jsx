@@ -7,6 +7,7 @@ const PatientDetail = () => {
   const [patient, setPatient] = useState(null);
   const [updatedPatient, setUpdatedPatient] = useState({});
   const [errors, setErrors] = useState({});
+  const [notes, setNotes] = useState([]);  // State pour les notes
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +25,21 @@ const PatientDetail = () => {
       }
     };
 
+    const fetchPatientNotes = async () => {
+      try {
+        const response = await fetch(`/notes/${patientId}`);  // Récupération des notes par patId
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setNotes(data);
+      } catch (error) {
+        console.error('Error fetching patient notes:', error);
+      }
+    };
+
     fetchPatientDetails();
+    fetchPatientNotes();  // Appel pour récupérer les notes
   }, [patientId]);
 
   const handleInputChange = (e) => {
@@ -61,7 +76,6 @@ const PatientDetail = () => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Error updating patient details:', errorData);
-        // Handle server-side validation errors
         setErrors(errorData.reduce((acc, curr) => ({ ...acc, [curr.field]: curr.defaultMessage }), {}));
         return;
       }
@@ -144,6 +158,21 @@ const PatientDetail = () => {
         </label>
         <button type="submit" className="update-button">Update</button>
       </form>
+
+      <div className="notes-section">
+        <h3>Patient Notes</h3>
+        {notes.length === 0 ? (
+          <p>No notes available for this patient.</p>
+        ) : (
+          <ul>
+            {notes.map(note => (
+              <li key={note._id}>
+                {note.notes}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

@@ -12,4 +12,6 @@ public interface INoteService {
     void deleteNoteById(String id);
     List<Note> getNotesByPatientName(String patientName);
 
+
+
 }
