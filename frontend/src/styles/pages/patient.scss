@@ -1,12 +1,10 @@
 .Patient {
   text-align: center;
-  
+
 }
 
 
-
-
-.App-header {
+.App-page {
   background-color: #A9CCE3;
   min-height: 100vh;
   display: flex;
@@ -15,12 +13,30 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: #2c3e50;
+  background-image: url('/images/624111.jpg');
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
+
+ 
+
 
 .App-link {
   color: #61dafb;
 }
 
+.Intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fffb;
+  box-shadow: 0 .4rem .8rem #0005;
+  border-radius: .8rem;
+  overflow: hidden;
+  width: 50%; 
+}
 
 .patient-container {
   display: flex;
@@ -31,6 +47,8 @@
   box-shadow: 0 .4rem .8rem #0005;
   border-radius: .8rem;
   overflow: hidden;
+  
+
 }
 
 .patient-header {
@@ -38,6 +56,7 @@
   padding: .8rem 1rem;
   border-radius: .8rem;
   text-align: center;
+  background-color: #fffb;
 }
 
 .patient-table {
@@ -46,6 +65,8 @@
   overflow-y: auto;
   background-color: #fff5;
   border-radius: .8rem;
+  background-color: #fffb;
+
   
 }
 
@@ -56,11 +77,9 @@
   background-color: #fff5;
   padding: 0 .8rem;
   border-radius: 2rem;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 
@@ -68,6 +87,8 @@
   max-height: calc(89% - 1.6rem);
   margin: .8rem auto;
   border-radius: .6rem;
+  background-color: #fffb;
+
 }
 
 

@@ -52,69 +52,69 @@ const Patient = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h2>Hi Doctor ! ⚕️</h2>
-        <h3>Search and update your patients 👩🏼‍💻</h3>
+      <div className="App-page">
+        <div className="Intro">
+          <h2>Hi Doctor ! ⚕️</h2>
+          <h3>Which patient are you looking for?</h3> 
+        </div>
 
-        <h3>Search your patient</h3>
         <form onSubmit={handleSearch}>
           <input
-            name="firstName"
-            value={search.firstName}
-            onChange={handleInputChange}
-            placeholder="First Name"
-          />
-          <input
-            name="lastName"
-            value={search.lastName}
-            onChange={handleInputChange}
-            placeholder="Last Name"
-          />
-          <button type="submit">Search</button>
-        </form>
+              name="firstName"
+              value={search.firstName}
+              onChange={handleInputChange}
+              placeholder="First Name"
+            />
+            <input
+              name="lastName"
+              value={search.lastName}
+              onChange={handleInputChange}
+              placeholder="Last Name"
+            />
+            <button type="submit">Search</button>
+          </form>
+          <div className="patient-container">
+            <div className="patient-header">
+              <h2>Your Patients</h2>
+            </div>
 
-        <div className="patient-container">
-          <div className="patient-header">
-            <h2>Your Patients</h2>
-          </div>
-
-          <section className="patient-body">
-            <table className="patient-table">
-              <thead>
-                <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Date of Birth</th>
-                  <th>Gender</th>
-                  <th>Postal Address</th>
-                  <th>Phone Number</th>
-                  <th>Update</th>
-                </tr>
-              </thead>
-              <tbody>
-                {patients.map(patient => (
-                  <tr key={patient.id}>
-                    <td>{patient.firstName}</td>
-                    <td>{patient.lastName}</td>
-                    <td>{patient.dateOfBirth}</td>
-                    <td>{patient.gender}</td>
-                    <td>{patient.postalAddress}</td>
-                    <td>{patient.phoneNumber}</td>
-                    <td>
-                      <button
-                        onClick={() => navigate(`/patients/${patient.id}`)}
-                        className="update-button"
-                      >
-                        Update
-                      </button>
-                    </td>
+            <section className="patient-body">
+              <table className="patient-table">
+                <thead>
+                  <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Postal Address</th>
+                    <th>Phone Number</th>
+                    <th>Update</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
+                </thead>
+                <tbody>
+                  {patients.map(patient => (
+                    <tr key={patient.id}>
+                      <td>{patient.firstName}</td>
+                      <td>{patient.lastName}</td>
+                      <td>{patient.dateOfBirth}</td>
+                      <td>{patient.gender}</td>
+                      <td>{patient.postalAddress}</td>
+                      <td>{patient.phoneNumber}</td>
+                      <td>
+                        <button
+                          onClick={() => navigate(`/patients/${patient.id}`)}
+                          className="update-button"
+                        >
+                          Update
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          </div>
         </div>
-      </header>
     </div>
   );
 }
