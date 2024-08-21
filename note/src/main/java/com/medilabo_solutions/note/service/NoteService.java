@@ -29,18 +29,7 @@ public class NoteService implements INoteService {
     }
 
     @Override
-    public Note getNoteById(String id) {
-        return noteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Note not found"));
-    }
-
-    @Override
-    public void deleteNoteById(String id) {
-        noteRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Note> getNotesByPatientName(String patientName) {
-        return noteRepository.findByPatientName(patientName);
+    public void deleteNoteByPatientId(Long patId) {
+        noteRepository.deleteByPatId(patId);
     }
 }

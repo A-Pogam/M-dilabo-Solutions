@@ -28,8 +28,4 @@ public class NoteController {
         return noteService.getNotesByPatientId(patId);
     }
 
-    @GetMapping("/{patientName}")
-    public List<Note> getNotesByPatientName(@PathVariable String patientName) {
-        return noteService.getNotesByPatientName(patientName);
-    }
 }

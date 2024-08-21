@@ -1,45 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pages/patientDetail.scss'; 
+import PatientNotes from './patientNotes.jsx';  // Import the new PatientNotes component
 
 const PatientDetail = () => {
   const { patientId } = useParams();
   const [patient, setPatient] = useState(null);
   const [updatedPatient, setUpdatedPatient] = useState({});
   const [errors, setErrors] = useState({});
-  const [notes, setNotes] = useState([]);  // State pour les notes
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchPatientDetails = async () => {
+    const fetchPatientData = async () => {
       try {
+        // Fetch patient details
         const response = await fetch(`/patients/${patientId}`);
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok for patient details');
         }
         const data = await response.json();
         setPatient(data);
         setUpdatedPatient(data);
       } catch (error) {
-        console.error('Error fetching patient details:', error);
+        console.error('Error fetching patient data:', error);
       }
     };
 
-    const fetchPatientNotes = async () => {
-      try {
-        const response = await fetch(`/notes/${patientId}`);  // Récupération des notes par patId
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setNotes(data);
-      } catch (error) {
-        console.error('Error fetching patient notes:', error);
-      }
-    };
-
-    fetchPatientDetails();
-    fetchPatientNotes();  // Appel pour récupérer les notes
+    fetchPatientData();
   }, [patientId]);
 
   const handleInputChange = (e) => {
@@ -159,20 +146,8 @@ const PatientDetail = () => {
         <button type="submit" className="update-button">Update</button>
       </form>
 
-      <div className="notes-section">
-        <h3>Patient Notes</h3>
-        {notes.length === 0 ? (
-          <p>No notes available for this patient.</p>
-        ) : (
-          <ul>
-            {notes.map(note => (
-              <li key={note._id}>
-                {note.notes}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {/* Render PatientNotes component */}
+      <PatientNotes patientId={patientId} />
     </div>
   );
 };
