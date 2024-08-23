@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pages/patientDetail.scss'; 
-import PatientNotes from './patientNotes.jsx';  // Import the new PatientNotes component
+import PatientNotes from './patientNotes.jsx';  
 
 const PatientDetail = () => {
   const { patientId } = useParams();
@@ -15,6 +15,7 @@ const PatientDetail = () => {
       try {
         // Fetch patient details
         const response = await fetch(`/patients/${patientId}`);
+        console.log('Response status:', response.status); // Log du statut de la réponse
         if (!response.ok) {
           throw new Error('Network response was not ok for patient details');
         }
@@ -147,7 +148,7 @@ const PatientDetail = () => {
       </form>
 
       {/* Render PatientNotes component */}
-      <PatientNotes patientId={patientId} />
+      <PatientNotes patId={patientId} />
     </div>
   );
 };

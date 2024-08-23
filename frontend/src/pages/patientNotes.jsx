@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const PatientNotes = ({ patientId }) => {
+const PatientNotes = ({ patId }) => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -8,7 +8,7 @@ const PatientNotes = ({ patientId }) => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await fetch(`/notes/${patientId}`);
+        const response = await fetch(`/notes/${patId}`);
         if (!response.ok) {
           throw new Error('Network response was not ok for patient notes');
         }
@@ -23,7 +23,7 @@ const PatientNotes = ({ patientId }) => {
     };
 
     fetchNotes();
-  }, [patientId]);
+  }, [patId]);
 
   if (loading) return <div>Loading notes...</div>;
   if (error) return <div>Error fetching notes: {error.message}</div>;
