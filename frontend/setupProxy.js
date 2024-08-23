@@ -4,18 +4,16 @@ module.exports = function(app) {
   app.use(
     '/patients',
     createProxyMiddleware({
-      target: 'http://localhost:8082',
+      target: 'http://localhost:9091', 
       changeOrigin: true,
-      pathRewrite: {'^/patients': ''}, 
     })
   );
 
   app.use(
     '/notes',
     createProxyMiddleware({
-      target: 'http://localhost:8083',
+      target: 'http://localhost:9091', 
       changeOrigin: true,
-      pathRewrite: {'^/notes': ''},
     })
   );
 };

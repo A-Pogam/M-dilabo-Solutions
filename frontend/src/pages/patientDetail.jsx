@@ -15,7 +15,7 @@ const PatientDetail = () => {
       try {
         // Fetch patient details
         const response = await fetch(`/patients/${patientId}`);
-        console.log('Response status:', response.status); // Log du statut de la réponse
+        console.log('Response status:', response.status); 
         if (!response.ok) {
           throw new Error('Network response was not ok for patient details');
         }
