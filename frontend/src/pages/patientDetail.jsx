@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pages/patientDetail.scss'; 
-import PatientNotes from './patientNotes.jsx';  
 
 const PatientDetail = () => {
   const { patientId } = useParams();
@@ -146,9 +145,6 @@ const PatientDetail = () => {
         </label>
         <button type="submit" className="update-button">Update</button>
       </form>
-
-      {/* Render PatientNotes component */}
-      <PatientNotes patId={patientId} />
     </div>
   );
 };
