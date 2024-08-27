@@ -2,26 +2,33 @@
     background-color: #A9CCE3;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-start;    
     justify-content: center;
     font-family: 'Arial', sans-serif;
     padding: 2rem;
+    gap: 2rem;
   
     h2 {
       color: #2c3e50;
       margin-bottom: 1.5rem;
+      width: 100%;
+      text-align: center;
     }
   
-    .patient-info-form {
+    .patient-info-form, .notes-section {
       background-color: #ffffff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       padding: 2rem;
-      width: 90%;
+      width: 100%;
       max-width: 600px;
       display: flex;
       flex-direction: column;
+    }
+  
+    .patient-info-form {
+      margin-right: 2rem; 
       
       label {
         display: flex;
@@ -64,9 +71,13 @@
       }
     }
   
+    
     .error-message {
       color: #e74c3c;
       font-size: 1.2rem;
     }
+
+    ul {
+      font-size: x-large;
+    }
   }
-  

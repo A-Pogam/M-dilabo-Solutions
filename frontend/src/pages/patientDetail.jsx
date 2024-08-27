@@ -6,6 +6,7 @@ const PatientDetail = () => {
   const { patientId } = useParams();
   const [patient, setPatient] = useState(null);
   const [updatedPatient, setUpdatedPatient] = useState({});
+  const [notes, setNotes] = useState([]); // Nouvel état pour les notes
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -21,8 +22,21 @@ const PatientDetail = () => {
         const data = await response.json();
         setPatient(data);
         setUpdatedPatient(data);
+
+        // Fetch patient notes
+        const notesResponse = await fetch(`/notes/${patientId}`);
+        if (!notesResponse.ok) {
+          throw new Error('Network response was not ok for patient notes');
+        }
+        const notesData = await notesResponse.json();
+        // Assurez-vous que `notesData` est un tableau
+        if (Array.isArray(notesData)) {
+          setNotes(notesData[0]?.notes || []);
+        } else {
+          throw new Error('Invalid data format: notes should be an array');
+        }
       } catch (error) {
-        console.error('Error fetching patient data:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -81,8 +95,8 @@ const PatientDetail = () => {
 
   return (
     <div className="patient-detail-container">
-      <h2>Patient Details</h2>
       <form onSubmit={handleSubmit} className="patient-info-form">
+      <h2>Patient Details</h2>
         <label>
           <strong>First Name:</strong>
           <input
@@ -145,6 +159,19 @@ const PatientDetail = () => {
         </label>
         <button type="submit" className="update-button">Update</button>
       </form>
+      
+      <div className="notes-section">
+        <h2>Patient Notes</h2>
+        {notes.length > 0 ? (
+          <ul>
+            {notes.map((note, index) => (
+              <li key={index}>{note}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No notes available for this patient.</p>
+        )}
+      </div>
     </div>
   );
 };
