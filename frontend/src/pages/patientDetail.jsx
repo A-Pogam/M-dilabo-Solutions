@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../styles/pages/patientDetail.scss'; 
+import '../styles/pages/patientDetail.scss';
 
 const PatientDetail = () => {
   const { patientId } = useParams();
   const [patient, setPatient] = useState(null);
   const [updatedPatient, setUpdatedPatient] = useState({});
-  const [notes, setNotes] = useState([]); // Nouvel état pour les notes
+  const [notes, setNotes] = useState([]);
+  const [newNote, setNewNote] = useState('');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
-        // Fetch patient details
         const response = await fetch(`/patients/${patientId}`);
-        console.log('Response status:', response.status); 
         if (!response.ok) {
           throw new Error('Network response was not ok for patient details');
         }
         const data = await response.json();
         setPatient(data);
         setUpdatedPatient(data);
+        setNotes(data.notes || []);
 
         // Fetch patient notes
         const notesResponse = await fetch(`/notes/${patientId}`);
@@ -29,7 +29,6 @@ const PatientDetail = () => {
           throw new Error('Network response was not ok for patient notes');
         }
         const notesData = await notesResponse.json();
-        // Assurez-vous que `notesData` est un tableau
         if (Array.isArray(notesData)) {
           setNotes(notesData[0]?.notes || []);
         } else {
@@ -49,6 +48,42 @@ const PatientDetail = () => {
       ...prevState,
       [name]: value
     }));
+  };
+
+  const handleNewNoteChange = (e) => {
+    setNewNote(e.target.value);
+  };
+
+  const addNote = async () => {
+    if (!newNote.trim()) return; 
+  
+    try {
+      const response = await fetch(`/notes/${patientId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newNote) // send the text in brut
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to add note');
+      }
+  
+      // read the answear as brut text
+      const responseData = await response.text();
+  
+      // Nettoyer la chaîne reçue
+      const cleanedNote = responseData.replace(/^"|"$/g, ''); // erase ""
+  
+      // add new note to the existing one
+      setNotes(prevNotes => [...prevNotes, cleanedNote]);
+  
+      // Réinitialiser le champ de saisie
+      setNewNote('');
+    } catch (error) {
+      console.error('Error adding note:', error);
+    }
   };
 
   const validateForm = () => {
@@ -83,7 +118,7 @@ const PatientDetail = () => {
 
       const data = await response.json();
       setPatient(data);
-      navigate('/patients'); // Navigate back to the patient list or details page after update
+      navigate('/patients');
     } catch (error) {
       console.error('Error updating patient details:', error);
     }
@@ -96,7 +131,7 @@ const PatientDetail = () => {
   return (
     <div className="patient-detail-container">
       <form onSubmit={handleSubmit} className="patient-info-form">
-      <h2>Patient Details</h2>
+        <h2>Patient Details</h2>
         <label>
           <strong>First Name:</strong>
           <input
@@ -171,6 +206,12 @@ const PatientDetail = () => {
         ) : (
           <p>No notes available for this patient.</p>
         )}
+          <input
+            value={newNote}
+            onChange={handleNewNoteChange}
+            placeholder="Write your new note here..."
+          />
+          <button type="button" onClick={addNote} className="update-button">Add Note</button>
       </div>
     </div>
   );

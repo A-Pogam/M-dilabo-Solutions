@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const PatientNotes = () => {
-  const { patId } = useParams(); // Récupère l'ID du patient depuis l'URL
+  const { patId } = useParams(); // extract patId from URL
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,6 +23,7 @@ const PatientNotes = () => {
         }
         const data = await response.json();
         console.log('Fetched data:', data); // Inspect the structure of the received data
+
 
         // if data is a table with, at least, one object 
         if (Array.isArray(data) && data.length > 0) {

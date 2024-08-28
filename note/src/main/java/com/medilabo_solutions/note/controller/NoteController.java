@@ -18,9 +18,9 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @PostMapping
-    public Note addNote(@RequestBody Note note) {
-        return noteService.addNote(note);
+    @PostMapping("/{patId}")
+    public String addNote(@PathVariable Long patId, @RequestBody String noteContent) {
+        return noteService.addNote(patId, noteContent);
     }
 
     @GetMapping("/{patId}")
