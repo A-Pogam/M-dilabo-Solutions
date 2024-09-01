@@ -19,8 +19,8 @@ public class NoteController {
     }
 
     @PostMapping("/{patId}")
-    public String addNote(@PathVariable Long patId, @RequestBody String noteContent) {
-        return noteService.addNote(patId, noteContent);
+    public Note addNote(@PathVariable Long patId, @RequestBody String note) {
+        return noteService.addNote(patId, note);
     }
 
     @GetMapping("/{patId}")

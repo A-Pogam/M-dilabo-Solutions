@@ -21,7 +21,6 @@ const PatientDetail = () => {
         const data = await response.json();
         setPatient(data);
         setUpdatedPatient(data);
-        setNotes(data.notes || []);
 
         // Fetch patient notes
         const notesResponse = await fetch(`/notes/${patientId}`);
@@ -29,11 +28,7 @@ const PatientDetail = () => {
           throw new Error('Network response was not ok for patient notes');
         }
         const notesData = await notesResponse.json();
-        if (Array.isArray(notesData)) {
-          setNotes(notesData[0]?.notes || []);
-        } else {
-          throw new Error('Invalid data format: notes should be an array');
-        }
+        setNotes(notesData); // Assumes notesData is an array of Note objects
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -44,9 +39,9 @@ const PatientDetail = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedPatient(prevState => ({
+    setUpdatedPatient((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -55,32 +50,24 @@ const PatientDetail = () => {
   };
 
   const addNote = async () => {
-    if (!newNote.trim()) return; 
-  
+    if (!newNote.trim()) return;
+
     try {
       const response = await fetch(`/notes/${patientId}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newNote) // send the text in brut
+        body: JSON.stringify({ note: newNote }), // Update: Send new note as JSON object
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to add note');
       }
-  
-      // read the answear as brut text
-      const responseData = await response.text();
-  
-      // Nettoyer la chaîne reçue
-      const cleanedNote = responseData.replace(/^"|"$/g, ''); // erase ""
-  
-      // add new note to the existing one
-      setNotes(prevNotes => [...prevNotes, cleanedNote]);
-  
-      // Réinitialiser le champ de saisie
-      setNewNote('');
+
+      const responseData = await response.json();
+      setNotes((prevNotes) => [...prevNotes, responseData]); // Assumes response returns the saved Note object
+      setNewNote(''); // Clear the input field
     } catch (error) {
       console.error('Error adding note:', error);
     }
@@ -88,10 +75,10 @@ const PatientDetail = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!updatedPatient.firstName) newErrors.firstName = "First name is mandatory";
-    if (!updatedPatient.lastName) newErrors.lastName = "Last name is mandatory";
-    if (!updatedPatient.dateOfBirth) newErrors.dateOfBirth = "Date of birth is mandatory";
-    if (!updatedPatient.gender) newErrors.gender = "Gender is mandatory";
+    if (!updatedPatient.firstName) newErrors.firstName = 'First name is mandatory';
+    if (!updatedPatient.lastName) newErrors.lastName = 'Last name is mandatory';
+    if (!updatedPatient.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is mandatory';
+    if (!updatedPatient.gender) newErrors.gender = 'Gender is mandatory';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -104,9 +91,9 @@ const PatientDetail = () => {
       const response = await fetch(`/patients/${patientId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedPatient)
+        body: JSON.stringify(updatedPatient),
       });
 
       if (!response.ok) {
@@ -200,18 +187,18 @@ const PatientDetail = () => {
         {notes.length > 0 ? (
           <ul>
             {notes.map((note, index) => (
-              <li key={index}>{note}</li>
+              <li key={index}>{note.notes}</li> // Assumes each note object has a 'notes' property
             ))}
           </ul>
         ) : (
           <p>No notes available for this patient.</p>
         )}
-          <input
-            value={newNote}
-            onChange={handleNewNoteChange}
-            placeholder="Write your new note here..."
-          />
-          <button type="button" onClick={addNote} className="update-button">Add Note</button>
+        <input
+          value={newNote}
+          onChange={handleNewNoteChange}
+          placeholder="Write your new note here..."
+        />
+        <button type="button" onClick={addNote} className="update-button">Add Note</button>
       </div>
     </div>
   );

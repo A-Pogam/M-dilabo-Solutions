@@ -13,15 +13,23 @@ public class Note {
     private String id;
     private Long patId;
     private String patientName;
-    private List<String> notes;
+    private String notes;
 
     public Note() {
     }
 
-    public Note(Long patId, String patientName, List<String> notes) {
+    public Note(Long patId, String patientName, String notes) {
         this.patId = patId;
         this.patientName = patientName;
         this.notes = notes;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Long getPatId() {
@@ -40,11 +48,11 @@ public class Note {
         this.patientName = patientName;
     }
 
-    public List<String> getNotes() {
+    public String getNotes() {
         return notes;
     }
 
-    public void setNotes(List<String> notes) {
+    public void setNotes(String notes) {
         this.notes = notes;
     }
 
