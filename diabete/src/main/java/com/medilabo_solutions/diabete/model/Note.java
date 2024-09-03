@@ -1,4 +1,4 @@
-package com.medilabo_solutions.patient.model;
+package com.medilabo_solutions.diabete.model;
 
 public class Note {
 
