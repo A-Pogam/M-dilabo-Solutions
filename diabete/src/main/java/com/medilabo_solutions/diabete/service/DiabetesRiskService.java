@@ -46,15 +46,32 @@ public class DiabetesRiskService implements IDiabetesRiskService {
             throw new RuntimeException("Notes not found for patient");
         }
 
-        long triggerCount = Arrays.stream(notes)
-                .map(Note::getNotes)
-                .flatMap(note -> Arrays.stream(note.split("\\P{L}+")))
-                .map(this::normalizeString)
-                .filter(triggers::contains)
-                .count();
+        long allTriggersCount = 0;
 
-        return determineRiskLevel(patient, triggerCount);
+        for (String trigger : triggers) {
+            boolean isTriggerPresent = Arrays.stream(notes)
+                    .map(Note::getNotes)
+                    .flatMap(note -> Arrays.stream(note.split("\\P{L}+")))
+                    .map(this::normalizeString)
+                    .anyMatch(word -> {
+                        boolean matches = word.equals(trigger);
+                        if (matches) {
+                            System.out.println("Trigger found: " + trigger);
+                        }
+                        return matches;
+                    });
+
+            if (isTriggerPresent) {
+                allTriggersCount++;
+                System.out.println("Trigger count incremented for trigger: " + trigger);
+            }
+        }
+
+        System.out.println("Total triggers count: " + allTriggersCount);
+
+        return determineRiskLevel(patient, allTriggersCount);
     }
+
 
     private String normalizeString(String input) {
         String lowerCased = input.toLowerCase(Locale.ROOT);
