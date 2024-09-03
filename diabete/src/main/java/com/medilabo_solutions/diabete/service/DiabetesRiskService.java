@@ -21,7 +21,6 @@ public class DiabetesRiskService implements IDiabetesRiskService {
     private final PatientServiceProxy patientServiceClient;
     private final NoteServiceProxy noteServiceClient;
 
-    // Ajouter les versions avec et sans accents
     private final List<String> triggers = Arrays.asList("hemoglobine A1C", "microalbumine", "taille", "tailles",
             "poids", "fumeur", "fumeuse", "anormal", "anormaux", "anormales", "anormale",
             "cholestérol", "vertige", "rechute",
@@ -35,21 +34,18 @@ public class DiabetesRiskService implements IDiabetesRiskService {
 
     @Override
     public String evaluateDiabetesRisk(Long id) {
-        // Récupérer les informations du patient
         Patient patient = patientServiceClient.getPatientById(id);
 
         if (patient == null) {
             throw new RuntimeException("Patient not found");
         }
 
-        // Récupérer les notes du patient
         Note[] notes = noteServiceClient.getNotesByPatientId(id);
 
         if (notes == null) {
             throw new RuntimeException("Notes not found for patient");
         }
 
-        // Compter le nombre de déclencheurs dans les notes
         long triggerCount = Arrays.stream(notes)
                 .map(Note::getNotes)
                 .flatMap(note -> Arrays.stream(note.split("\\P{L}+")))
@@ -61,11 +57,8 @@ public class DiabetesRiskService implements IDiabetesRiskService {
     }
 
     private String normalizeString(String input) {
-        // Convertir en minuscules
         String lowerCased = input.toLowerCase(Locale.ROOT);
-        // Supprimer les diacritiques (accents)
         String normalized = Normalizer.normalize(lowerCased, Normalizer.Form.NFD);
-        // Supprimer les caractères non alphabétiques
         return normalized.replaceAll("[^\\p{ASCII}]", "");
     }
 
