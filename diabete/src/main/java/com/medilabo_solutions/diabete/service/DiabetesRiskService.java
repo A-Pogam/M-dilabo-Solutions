@@ -21,10 +21,10 @@ public class DiabetesRiskService implements IDiabetesRiskService {
     private final PatientServiceProxy patientServiceClient;
     private final NoteServiceProxy noteServiceClient;
 
-    private final List<String> triggers = Arrays.asList("hemoglobine A1C", "microalbumine", "taille", "tailles",
-            "poids", "fumeur", "fumeuse", "anormal", "anormaux", "anormales", "anormale",
-            "cholestérol", "vertige", "rechute",
-            "réaction", "anticorps");
+    private final List<String> triggers = Arrays.asList("Hémoglobine", "microalbumine", "taille", "tailles",
+            "poids", "fumeur", "fumer", "fumeuse", "anormal", "anormaux", "anormales", "anormale",
+            "cholesterol", "vertige", "rechute",
+            "reaction", "anticorps");
 
     @Autowired
     public DiabetesRiskService(PatientServiceProxy patientServiceClient, NoteServiceProxy noteServiceClient) {
