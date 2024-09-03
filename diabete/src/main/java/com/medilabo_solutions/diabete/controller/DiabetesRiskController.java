@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/diabetes-risk")
+@RequestMapping("/diabetes")
 public class DiabetesRiskController {
 
     private final IDiabetesRiskService diabetesRiskService;
@@ -16,9 +16,9 @@ public class DiabetesRiskController {
         this.diabetesRiskService = diabetesRiskService;
     }
 
-    @GetMapping("/{patId}")
-    public ResponseEntity<String> getDiabetesRisk(@PathVariable Long patId) {
-        String riskLevel = diabetesRiskService.evaluateDiabetesRisk(patId);
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getDiabetesRisk(@PathVariable Long id) {
+        String riskLevel = diabetesRiskService.evaluateDiabetesRisk(id);
         return ResponseEntity.ok(riskLevel);
     }
 }
