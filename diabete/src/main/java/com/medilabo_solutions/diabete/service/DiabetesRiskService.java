@@ -21,7 +21,7 @@ public class DiabetesRiskService implements IDiabetesRiskService {
     private final PatientServiceProxy patientServiceClient;
     private final NoteServiceProxy noteServiceClient;
 
-    private final List<String> triggers = Arrays.asList("Hémoglobine", "microalbumine", "taille", "tailles",
+    private final List<String> triggers = Arrays.asList("hemoglobine", "microalbumine", "taille", "tailles",
             "poids", "fumeur", "fumer", "fumeuse", "anormal", "anormaux", "anormales", "anormale",
             "cholesterol", "vertige", "rechute",
             "reaction", "anticorps");
@@ -85,29 +85,30 @@ public class DiabetesRiskService implements IDiabetesRiskService {
 
         if (triggerCount == 0) {
             return "None";
-        } else if (triggerCount >= 2 && triggerCount <= 5 && age > 30) {
-            return "Borderline";
-        } else if (age < 30) {
-            if ("male".equals(gender) && triggerCount >= 3 && triggerCount < 5) {
-                return "In Danger";
-            } else if ("female".equals(gender) && triggerCount >= 4 && triggerCount < 7) {
-                return "In Danger";
-            }
-        } else if (age > 30) {
-            if (triggerCount >= 6 && triggerCount < 8) {
-                return "In Danger";
-            } else if (triggerCount >= 8) {
+        }
+
+        if (age > 30) {
+            if (triggerCount >= 8) {
                 return "Early Onset";
-            }
-        } else if (age < 30) {
-            if ("male".equals(gender) && triggerCount >= 5) {
-                return "Early Onset";
-            } else if ("female".equals(gender) && triggerCount >= 7) {
-                return "Early Onset";
+            } else if (triggerCount >= 6) {
+                return "In Danger";
+            } else if (triggerCount >= 2 && triggerCount <= 5) {
+                return "Borderline";
             }
         }
+        else {
+            if (gender.equals("male") && triggerCount >= 5) {
+                return "Early Onset";
+            } else if (gender.equals("female") && triggerCount >= 7) {
+                return "Early Onset";
+            } else if (triggerCount >= 3) {
+                return "In Danger";
+            }
+        }
+
         return "None";
     }
+
 
     private int calculateAge(Date dateOfBirth) {
         Calendar birthCalendar = Calendar.getInstance();

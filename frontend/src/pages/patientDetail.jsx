@@ -28,6 +28,7 @@ const PatientDetail = () => {
           throw new Error('Network response was not ok for patient notes');
         }
         const notesData = await notesResponse.json();
+        console.log('Fetched notes data:', notesData);
         setNotes(notesData); // Assumes notesData is an array of Note objects
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -56,9 +57,9 @@ const PatientDetail = () => {
       const response = await fetch(`/notes/${patientId}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'text/plain',
         },
-        body: JSON.stringify({ note: newNote }), // Update: Send new note as JSON object
+        body: newNote, // Update: Send new note as JSON object
       });
 
       if (!response.ok) {

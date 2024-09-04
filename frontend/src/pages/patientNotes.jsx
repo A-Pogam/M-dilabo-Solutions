@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 
 const PatientNotes = () => {
   const { patId } = useParams(); // extract patId from URL
-  const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -33,7 +32,6 @@ const PatientNotes = () => {
 
           // check if notes is a table
           if (Array.isArray(dataObject.notes)) {
-            setNotes(dataObject.notes);
           } else {
             throw new Error('Invalid data format: notes should be an array');
           }
@@ -53,20 +51,6 @@ const PatientNotes = () => {
   if (loading) return <div>Loading notes...</div>;
   if (error) return <div>Error fetching notes: {error.message}</div>;
 
-  return (
-    <div className="notes-section">
-      <h3>Patient Notes</h3>
-      {notes.length > 0 ? (
-        <ul>
-          {notes.map((note, index) => (
-            <li key={index}>{note}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No notes available for this patient.</p>
-      )}
-    </div>
-  );
 };
 
 export default PatientNotes;
