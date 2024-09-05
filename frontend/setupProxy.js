@@ -16,4 +16,12 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+
+  app.use(
+    '/diabetes',
+    createProxyMiddleware({
+      target: 'http://localhost:9091', 
+      changeOrigin: true,
+    })
+  );
 };

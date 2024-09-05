@@ -9,7 +9,7 @@
     padding: 2rem;
     gap: 2rem;
   
-    h2 {
+    h2, p {
       color: #2c3e50;
       margin-bottom: 1.5rem;
       width: 100%;
@@ -60,7 +60,7 @@
         color: #ffffff;
         border: none;
         padding: 0.8rem 1.5rem;
-        font-size: 1rem;
+        font-size: 1.5rem;
         border-radius: 4px;
         cursor: pointer;
         margin-top: 1rem;
@@ -69,6 +69,10 @@
           background-color: #2980b9;
         }
       }
+    }
+
+    p {
+      font-size: xx-large;
     }
   
     

@@ -8,6 +8,7 @@ const PatientDetail = () => {
   const [updatedPatient, setUpdatedPatient] = useState({});
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
+  const [diabetesRisk, setDiabetesRisk] = useState(''); // Nouvel état pour stocker le risque de diabète
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -28,15 +29,33 @@ const PatientDetail = () => {
           throw new Error('Network response was not ok for patient notes');
         }
         const notesData = await notesResponse.json();
-        console.log('Fetched notes data:', notesData);
-        setNotes(notesData); // Assumes notesData is an array of Note objects
+        setNotes(notesData);
+
+        // Fetch diabetes risk
+        const fetchDiabetesRisk = async () => {
+          try {
+            const response = await fetch(`/diabetes/${patientId}`);
+            if (!response.ok) {
+              throw new Error('Failed to fetch diabetes risk');
+            }
+            const data = await response.text();  // Assure-toi que c'est du texte
+            console.log('Diabetes Risk Response:', data); // Log pour vérifier la réponse
+            setDiabetesRisk(data);
+          } catch (error) {
+            console.error('Error fetching diabetes risk:', error);
+          }
+        };
+
+        await fetchDiabetesRisk();  // Appelle la fonction ici
+
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching patient data:', error);  // Ajoute le bloc catch manquant ici
       }
     };
 
     fetchPatientData();
-  }, [patientId]);
+}, [patientId]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -182,13 +201,13 @@ const PatientDetail = () => {
         </label>
         <button type="submit" className="update-button">Update</button>
       </form>
-      
+
       <div className="notes-section">
         <h2>Patient Notes</h2>
         {notes.length > 0 ? (
           <ul>
             {notes.map((note, index) => (
-              <li key={index}>{note.notes}</li> // Assumes each note object has a 'notes' property
+              <li key={index}>{note.notes}</li>
             ))}
           </ul>
         ) : (
@@ -200,6 +219,13 @@ const PatientDetail = () => {
           placeholder="Write your new note here..."
         />
         <button type="button" onClick={addNote} className="update-button">Add Note</button>
+      </div>
+
+      <div className="notes-section">
+        <h2>Diabetes Risk</h2>
+        {diabetesRisk && (
+          <p>Risk Level: {diabetesRisk}</p>
+        )}
       </div>
     </div>
   );
