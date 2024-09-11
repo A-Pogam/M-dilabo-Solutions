@@ -13,7 +13,21 @@ const PatientDetail = () => {
   const [newNote, setNewNote] = useState('');
   const [diabetesRisk, setDiabetesRisk] = useState('');
   const [errors, setErrors] = useState({});
+  const [userRole, setUserRole] = useState(''); 
   const navigate = useNavigate();
+
+  const fetchUserRole = async () => {
+    try {
+      const response = await fetch('/api/user-role'); 
+      if (!response.ok) {
+        throw new Error('Failed to fetch user role');
+      }
+      const data = await response.json();
+      setUserRole(data.role); 
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchPatientData = async () => {
@@ -26,34 +40,29 @@ const PatientDetail = () => {
         setPatient(data);
         setUpdatedPatient(data);
 
-        const notesResponse = await fetch(`/notes/${patientId}`);
-        if (!notesResponse.ok) {
-          throw new Error('Network response was not ok for patient notes');
-        }
-        const notesData = await notesResponse.json();
-        setNotes(notesData);
-
-        const fetchDiabetesRisk = async () => {
-          try {
-            const response = await fetch(`/diabetes/${patientId}`);
-            if (!response.ok) {
-              throw new Error('Failed to fetch diabetes risk');
-            }
-            const data = await response.text();
-            setDiabetesRisk(data);
-          } catch (error) {
-            console.error('Error fetching diabetes risk:', error);
+        if (userRole === 'ADMIN') {
+          const notesResponse = await fetch(`/notes/${patientId}`);
+          if (!notesResponse.ok) {
+            throw new Error('Network response was not ok for patient notes');
           }
-        };
+          const notesData = await notesResponse.json();
+          setNotes(notesData);
 
-        await fetchDiabetesRisk();
+          const diabetesResponse = await fetch(`/diabetes/${patientId}`);
+          if (!diabetesResponse.ok) {
+            throw new Error('Failed to fetch diabetes risk');
+          }
+          const diabetesData = await diabetesResponse.text();
+          setDiabetesRisk(diabetesData);
+        }
       } catch (error) {
         console.error('Error fetching patient data:', error);
       }
     };
 
+    fetchUserRole(); 
     fetchPatientData();
-  }, [patientId]);
+  }, [patientId, userRole]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -140,13 +149,17 @@ const PatientDetail = () => {
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
       />
-      <PatientNotes
-        notes={notes}
-        newNote={newNote}
-        handleNewNoteChange={handleNewNoteChange}
-        addNote={addNote}
-      />
-      <DiabetesRisk diabetesRisk={diabetesRisk} />
+      {userRole === 'ADMIN' && (
+        <>
+          <PatientNotes
+            notes={notes}
+            newNote={newNote}
+            handleNewNoteChange={handleNewNoteChange}
+            addNote={addNote}
+          />
+          <DiabetesRisk diabetesRisk={diabetesRisk} />
+        </>
+      )}
     </div>
   );
 };
