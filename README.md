@@ -100,7 +100,7 @@ The application is built using a microservices architecture where each service i
     mvn spring-boot:run -pl gatewayApplication
 
 ## GreenCode
-Green Code, also known as responsible code, is part of a larger movement called green IT or sustainable computing.
+Green Code, also known as responsible code, is part of a larger movement called green IT.
 
 This concept encompasses all information and communication technologies that contribute to achieving sustainable development goals. It considers the environmental, social, and economic impacts of these activities.
 
@@ -109,6 +109,6 @@ The main issues highlighted are:
 - Excessive consumption of disk space or resources by software.
 - Software often includes many unnecessary and non-essential features.
 
-Unlike traditional coding, eco-friendly coding focuses on essentials. As a result, you get a lighter, faster, and more resource (and energy-efficient) application or website.
+Unlike traditional coding, eco-friendly coding focuses on essentials. As a result, you get a lighter, faster, and more resource (and energy) efficient application or website.
 
 One of the key solutions to reduce consumption for businesses is to develop leaner and better designed code known as "green code." Alongside optimizing the code, it’s also important to trim down the "digital fat" by removing all unnecessary features, and thus, the corresponding lines of code, to focus on what's truly essential.
