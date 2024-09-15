@@ -1,0 +1,125 @@
+version: '3.8'
+
+volumes:
+  mls_mysql_db:
+
+networks:
+  mls_network:
+
+services:
+  # DATABASE : MYSQL
+  mls_mysql_db:
+    container_name: mls_mysql_db
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+      - mls_mysql_db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: mls_patient
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 3
+    networks:
+      - mls_network
+    ports:
+      - "3307:3306"
+
+    # MongoDB
+  mongodb:
+    container_name: msl_mongodb
+    image: mongo:latest
+    restart: always
+    volumes:
+      - msl_mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ?
+      MONGO_INITDB_ROOT_PASSWORD: ?
+      MONGO_INITDB_DATABASE: mls_note
+    networks:
+      - mls_network
+    ports:
+      - "27017:27017"
+
+
+  # Edge Service : DISCOVERY
+  service-discovery:
+    container_name: msl_discovery_service
+    build:
+      context: back/service-discovery/.
+      dockerfile: Dockerfile
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+    networks:
+      - mls_network
+    ports:
+      - "9090:9090"
+
+  # Gateway
+  gateway:
+    container_name: msl_gateway
+    build:
+      context: back/gateway/.
+      dockerfile: Dockerfile
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+    networks:
+      - mls_network
+    ports:
+      - "9091:9091"
+
+  patient:
+    container_name: msl_patient_service
+    build:
+      context: back/patient/.
+      dockerfile: Dockerfile
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/your_database
+    networks:
+      - mls_network
+    ports:
+      - "8081:8081"
+
+  notes:
+    container_name: msl_notes_service
+    build:
+      context: back/notes/.
+      dockerfile: Dockerfile
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/your_database
+    networks:
+      - mls_network
+    ports:
+      - "8082:8082"
+
+  diabetes:
+    container_name: msl_diabetes_service
+    build:
+      context: back/diabetes/.
+      dockerfile: Dockerfile
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/your_database
+    networks:
+      - mls_network
+    ports:
+      - "8083:8083"
+
+  # Frontend React
+  frontend:
+    container_name: msl_frontend
+    build:
+      context: front/.
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
