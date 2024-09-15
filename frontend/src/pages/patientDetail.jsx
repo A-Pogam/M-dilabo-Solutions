@@ -60,7 +60,7 @@ const PatientDetail = () => {
       }
     };
 
-    fetchUserRole(); 
+    fetchUserRole();
     fetchPatientData();
   }, [patientId, userRole]);
 
