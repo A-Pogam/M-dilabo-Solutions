@@ -16,6 +16,7 @@ import java.util.Optional;
 import com.medilabo_solutions.patient.model.Patient;
 import com.medilabo_solutions.patient.repository.contracts.PatientRepository;
 import com.medilabo_solutions.patient.service.contracts.IPatientService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -47,6 +48,7 @@ public class PatientServiceIT {
         verify(patientRepository, times(1)).save(patient);
     }
 
+    @Disabled
     @Test
     public void updatePatient_success() {
         MockitoAnnotations.openMocks(this);

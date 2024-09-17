@@ -1,7 +1,6 @@
-version: '3.8'
-
 volumes:
   mls_mysql_db:
+  msl_mongodb_data:
 
 networks:
   mls_network:
@@ -28,7 +27,7 @@ services:
     ports:
       - "3307:3306"
 
-    # MongoDB
+  # MongoDB
   mongodb:
     container_name: msl_mongodb
     image: mongo:latest
@@ -36,90 +35,87 @@ services:
     volumes:
       - msl_mongodb_data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ?
-      MONGO_INITDB_ROOT_PASSWORD: ?
       MONGO_INITDB_DATABASE: mls_note
     networks:
       - mls_network
     ports:
       - "27017:27017"
 
-
   # Edge Service : DISCOVERY
   service-discovery:
     container_name: msl_discovery_service
     build:
-      context: back/service-discovery/.
+      context: service-discovery/.
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
-      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
     networks:
       - mls_network
     ports:
-      - "9090:9090"
+      - "9093:9090"
 
   # Gateway
   gateway:
     container_name: msl_gateway
     build:
-      context: back/gateway/.
+      context: gateway/.
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
-      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
     networks:
       - mls_network
     ports:
-      - "9091:9091"
+      - "9094:9091"
 
   patient:
     container_name: msl_patient_service
     build:
-      context: back/patient/.
+      context: patient/.
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
-      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/your_database
+      eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/mls_patient
     networks:
       - mls_network
     ports:
-      - "8081:8081"
+      - "8085:8082"
 
-  notes:
+  note:
     container_name: msl_notes_service
     build:
-      context: back/notes/.
+      context: note/.
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
-      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/your_database
+      eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
+      SPRING_DATA_MONGODB_URI: mongodb+srv://alicepogam59:87mJZW5blQb8YzUm@medilabonote.you6h.mongodb.net/mls_note?retryWrites=true&w=majority
     networks:
       - mls_network
     ports:
-      - "8082:8082"
+      - "8086:8083"
 
-  diabetes:
+  diabete:
     container_name: msl_diabetes_service
     build:
-      context: back/diabetes/.
+      context: diabete/.
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
-      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/your_database
+      eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/mls_diabetes
     networks:
       - mls_network
     ports:
-      - "8083:8083"
+      - "8087:8084"
 
   # Frontend React
   frontend:
     container_name: msl_frontend
     build:
-      context: front/.
+      context: frontend/.
       dockerfile: Dockerfile
     ports:
       - "3001:3000"
