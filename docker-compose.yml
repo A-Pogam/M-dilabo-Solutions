@@ -53,24 +53,17 @@ services:
     networks:
       - mls_network
     ports:
-      - "9093:9090"
+      - "9090:9090"
 
-  # Gateway
-  gateway:
-    container_name: msl_gateway
-    build:
-      context: gateway/.
-      dockerfile: Dockerfile
-    environment:
-      eureka.instance.hostname: host.docker.internal
-      eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
-    networks:
-      - mls_network
-    ports:
-      - "9094:9091"
 
   patient:
     container_name: msl_patient_service
+    depends_on:
+      mls_mysql_db:
+        condition: service_healthy
+      service-discovery:
+        condition: service_started
+
     build:
       context: patient/.
       dockerfile: Dockerfile
@@ -81,10 +74,16 @@ services:
     networks:
       - mls_network
     ports:
-      - "8085:8082"
+      - "8082:8082"
 
   note:
     container_name: msl_notes_service
+    depends_on:
+      mongodb:
+        condition: service_started
+      service-discovery:
+        condition: service_started
+
     build:
       context: note/.
       dockerfile: Dockerfile
@@ -95,10 +94,13 @@ services:
     networks:
       - mls_network
     ports:
-      - "8086:8083"
+      - "8083:8083"
 
   diabete:
     container_name: msl_diabetes_service
+    depends_on:
+      service-discovery:
+        condition: service_started
     build:
       context: diabete/.
       dockerfile: Dockerfile
@@ -109,13 +111,40 @@ services:
     networks:
       - mls_network
     ports:
-      - "8087:8084"
+      - "8084:8084"
+
+  # Gateway
+  gateway:
+    container_name: msl_gateway
+    depends_on:
+      service-discovery:
+        condition: service_started
+      patient:
+        condition: service_started
+      note:
+        condition: service_started
+      diabete:
+        condition: service_started
+
+    build:
+      context: gateway/.
+      dockerfile: Dockerfile
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
+    networks:
+      - mls_network
+    ports:
+      - "9091:9091"
 
   # Frontend React
   frontend:
     container_name: msl_frontend
+    depends_on:
+      gateway:
+        condition: service_started
     build:
       context: frontend/.
       dockerfile: Dockerfile
     ports:
-      - "3001:3000"
+      - "3000:3000"

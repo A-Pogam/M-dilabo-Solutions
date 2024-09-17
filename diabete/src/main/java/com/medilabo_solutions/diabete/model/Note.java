@@ -22,5 +22,10 @@ public class Note {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public Note(Long patId, String notes) {
+        this.patId = patId;
+        this.notes = notes;
+    }
 }
 
