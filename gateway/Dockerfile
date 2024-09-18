@@ -7,4 +7,4 @@ COPY src/main/resources/application.properties application.properties
 
 EXPOSE 9091
 
-CMD java -jar gateway.jar --spring.config.location=file:/application.properties
+CMD ["java", "-jar", "gateway.jar", "--spring.config.location=file:/application.properties"]

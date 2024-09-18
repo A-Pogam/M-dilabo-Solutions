@@ -1,4 +1,7 @@
-FROM node:21 
+FROM node:21-alpine
+
+RUN apk add --no-cache busybox-extras
+
 
 WORKDIR /app
 

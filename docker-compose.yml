@@ -130,7 +130,7 @@ services:
       context: gateway/.
       dockerfile: Dockerfile
     environment:
-      eureka.instance.hostname: host.docker.internal
+      eureka.instance.hostname: gateway
       eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
     networks:
       - mls_network
@@ -148,3 +148,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    networks:
+      - mls_network
