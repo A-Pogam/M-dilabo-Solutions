@@ -32,8 +32,6 @@ services:
     container_name: msl_mongodb
     image: mongo:latest
     restart: always
-    volumes:
-      - msl_mongodb_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: mls_note
     networks:

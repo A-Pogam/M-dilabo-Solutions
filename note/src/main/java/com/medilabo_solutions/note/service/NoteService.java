@@ -35,9 +35,4 @@ public class NoteService implements INoteService {
     public List<Note> getNotesByPatientId(Long patId) {
         return noteRepository.findByPatId(patId);
     }
-
-    @Override
-    public void deleteNoteByPatientId(Long patId) {
-        noteRepository.deleteByPatId(patId);
-    }
 }

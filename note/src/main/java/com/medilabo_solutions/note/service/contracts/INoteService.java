@@ -8,6 +8,6 @@ public interface INoteService {
 
     Note addNote(Long patId, String notes);
     List<Note> getNotesByPatientId(Long patId);
-    void deleteNoteByPatientId(Long patId);
 
 }
+
