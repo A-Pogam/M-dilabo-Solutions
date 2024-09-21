@@ -1,4 +1,4 @@
-package com.medilabo_solutions.diabete;
+package com.medilabo_solutions.diabete.controller;
 
 import com.medilabo_solutions.diabete.service.contracts.IDiabetesRiskService;
 import org.springframework.beans.factory.annotation.Autowired;

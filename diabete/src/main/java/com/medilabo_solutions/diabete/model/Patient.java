@@ -57,4 +57,8 @@ public class Patient {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
+
+    public Patient () {
+
+    }
 }

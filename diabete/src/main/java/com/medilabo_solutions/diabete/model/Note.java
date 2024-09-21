@@ -27,5 +27,9 @@ public class Note {
         this.patId = patId;
         this.notes = notes;
     }
+
+    public Note () {
+
+    }
 }
 

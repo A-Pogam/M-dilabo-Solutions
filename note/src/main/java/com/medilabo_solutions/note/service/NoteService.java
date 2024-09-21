@@ -35,4 +35,5 @@ public class NoteService implements INoteService {
     public List<Note> getNotesByPatientId(Long patId) {
         return noteRepository.findByPatId(patId);
     }
+
 }

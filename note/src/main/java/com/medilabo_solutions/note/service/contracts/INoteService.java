@@ -10,4 +10,3 @@ public interface INoteService {
     List<Note> getNotesByPatientId(Long patId);
 
 }
-

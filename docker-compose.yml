@@ -88,7 +88,8 @@ services:
     environment:
       eureka.instance.hostname: host.docker.internal
       eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
-      SPRING_DATA_MONGODB_URI: mongodb+srv://alicepogam59:87mJZW5blQb8YzUm@medilabonote.you6h.mongodb.net/mls_note?retryWrites=true&w=majority
+      SPRING_DATA_MONGODB_URI: mongodb://mls_mongo_data:27017/mls_note
+
     networks:
       - mls_network
     ports:
