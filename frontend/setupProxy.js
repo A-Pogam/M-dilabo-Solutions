@@ -4,15 +4,17 @@ module.exports = function(app) {
   app.use(
     '/patients',
     createProxyMiddleware({
-      target: 'http://msl_gateway:9091', 
-      changeOrigin: true,
+      target: 'http://localhost:9091/',  
+      changeOrigin: true, 
     })
   );
+
+//      target: 'http://msl_gateway:9091/', 
 
   app.use(
     '/notes',
     createProxyMiddleware({
-      target: 'http://msl_gateway:9091', 
+      target: 'http://localhost:9091/', 
       changeOrigin: true,
     })
   );
@@ -20,7 +22,7 @@ module.exports = function(app) {
   app.use(
     '/diabetes',
     createProxyMiddleware({
-      target: 'http://msl_gateway:9091', 
+      target: 'http://localhost:9091/', 
       changeOrigin: true,
     })
   );
