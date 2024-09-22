@@ -33,7 +33,6 @@ const PatientDetail = () => {
         const notesData = await notesResponse.json();
         setNotes(notesData);
 
-        
         const fetchDiabetesRisk = async () => {
           try {
             const response = await fetch(`/diabetes/${patientId}`);
@@ -71,11 +70,10 @@ const PatientDetail = () => {
   const addNote = async () => {
     if (!newNote.trim()) return;
     try {
-      const response = await fetch(`http://localhost:3000/notes/1`, {
+      const response = await fetch(`/notes/${patientId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          'Content-Length': '50000'
         },
         body: newNote,
       });
