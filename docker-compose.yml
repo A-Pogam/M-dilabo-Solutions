@@ -1,6 +1,6 @@
 volumes:
   mls_mysql_db:
-  msl_mongodb_data:
+  #msl_mongodb_data:
 
 networks:
   mls_network:
@@ -28,16 +28,16 @@ services:
       - "3307:3306"
 
   # MongoDB
-  mongodb:
-    container_name: msl_mongodb
-    image: mongo:latest
-    restart: always
-    environment:
-      MONGO_INITDB_DATABASE: mls_note
-    networks:
-      - mls_network
-    ports:
-      - "27017:27017"
+  #mongodb:
+    #container_name: msl_mongodb
+    #image: mongo:latest
+    #restart: always
+    #environment:
+      #MONGO_INITDB_DATABASE: mls_note
+    #networks:
+      #- mls_network
+    #ports:
+      #- "27017:27017"
 
   # Edge Service : DISCOVERY
   service-discovery:
@@ -63,7 +63,7 @@ services:
         condition: service_started
 
     build:
-      context: patient/.
+      context: ./patient
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
@@ -77,18 +77,18 @@ services:
   note:
     container_name: msl_notes_service
     depends_on:
-      mongodb:
-        condition: service_started
+      #mongodb:
+        #condition: service_started
       service-discovery:
         condition: service_started
 
     build:
-      context: note/.
+      context: ./note
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
       eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
-      SPRING_DATA_MONGODB_URI: mongodb://mls_mongo_data:27017/mls_note
+      #SPRING_DATA_MONGODB_URI: mongodb://mls_mongo_data:27017/mls_note
 
     networks:
       - mls_network
@@ -101,12 +101,11 @@ services:
       service-discovery:
         condition: service_started
     build:
-      context: diabete/.
+      context: ./diabete
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: host.docker.internal
       eureka.client.serviceUrl.defaultZone: http://service-discovery:9090/eureka
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/mls_diabetes
     networks:
       - mls_network
     ports:
@@ -126,7 +125,7 @@ services:
         condition: service_started
 
     build:
-      context: gateway/.
+      context: ./gateway
       dockerfile: Dockerfile
     environment:
       eureka.instance.hostname: gateway
@@ -143,7 +142,7 @@ services:
       gateway:
         condition: service_started
     build:
-      context: frontend/.
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"

@@ -34,6 +34,7 @@ public class DiabetesRiskService implements IDiabetesRiskService {
 
     @Override
     public String evaluateDiabetesRisk(Long id) {
+
         Patient patient = patientServiceClient.getPatientById(id);
 
         if (patient == null) {
